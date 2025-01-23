@@ -51,7 +51,7 @@ This repository contains scripts and configuration files to set up and manage li
 ## Setup Instructions
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/erickclasen/one-line-live-stream.git]
+   git clone https://github.com/erickclasen/one-line-live-stream.git
    cd one-line-live-stream
    ```
 
