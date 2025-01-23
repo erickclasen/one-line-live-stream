@@ -1,0 +1,91 @@
+2006  ./parecord-streaming.sh 
+ 2007  nano  ~/.ssh/config
+ 2008  mkdir -p ~/.ssh/sockets
+ 2009  lst
+ 2010  ./parec-streaming-22050-64k.sh 
+ 2011  ping example.com
+
+ To test:
+ 2012  curl -I http://yoursite.com/audio/live-audio.m3u8
+... no caching s/b enabled
+
+curl should show that no caching is in effect
+
+WARNING: Needed to edit ssh config to allow continus ssh connection or else
+webserver kicks you out.
+
+Persistant connection to put in  ~/.ssh/config
+
+----------------------------------------------------
+Host yoursite.com
+  HostName yorsite.com
+  User username
+  Port 22
+  ControlMaster auto
+  ControlPath ~/.ssh/sockets/%r@%h:%p
+  ControlPersist 600
+
+----------------------------------------------------
+
+SSH/RSYNC to WebServer
+
+
+1. Had to add remote server ID to known_hosts on local machine.
+
+2. Had to add local machine id_rsa_pub to...
+
+nano .ssh/authorized_keys 
+
+...on the web server.
+
+This goes to online...
+-rwxrwxr-x 1 erick erick 1465 Jan  8 18:47 rsync-stream-to-server.sh
+
+mono 22050 RAW compressed to 64k/s via ffmpeg...
+-rwxrwxr-x 1 erick erick  241 Jan  8 18:48 parec-streaming-22050-64k.sh
+
+mono 44100 RAW compressed to 128k/s via ffmpeg...
+-rwxrwxr-x 1 erick erick  768 Jan  8 18:48 parecord-streaming.sh
+
+THis goes to laptop local for test...
+-rwxrwxr-x 1 erick erick 1406 Jan  8 18:49 rsync-stream-to-laptop.sh
+
+----------------------------------------------
+ON web server Need to adjust .htaccess in ~/username/audio
+
+1. Needs to support CORS and mime types for .ts and .m3u8 files.
+2. Needs to force cache to clear so that audio files are always reloaded
+   by browser and any proxy levels.
+
+
+----------------------------------------------
+web server html dir or dir where files will go 
+
+cat .htaccess 
+
+Options -Indexes 
+AddType application/vnd.apple.mpegurl .m3u8
+AddType video/mp2t .ts
+
+<IfModule mod_headers.c>
+  Header set Access-Control-Allow-Origin "*"
+</IfModule>
+
+<FilesMatch "\.(m3u8|ts)$">
+  Header set Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate"
+  Header set Pragma "no-cache"
+  Header set Expires 0
+</FilesMatch>
+
+----------------------------------------------
+
+I plan on trying to keep a local copy on index.html in this working dir, so it
+can be a reference.
+
+
+Web server  CRON
+For good measure rm the audio/video files in the audio dir under ~/yourfolder/live
+So that no partial audio segments are left.
+# Daily remove ts and m3u8 files in audio streaming dir.
+0 0 * * * rm /home/username/yourfolder/live/live-stream.*
+

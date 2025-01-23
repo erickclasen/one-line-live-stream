@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Heart Centered Living: Live Audio Stream</title>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+  <h2>Heart Centered Living: Live Audio Stream</h2>
+  <video id="video" controls></video>
+  <script>
+    var video = document.getElementById('video');
+    var videoSrc = 'https://yoursite.com/live/live-stream.m3u8';
+
+    if (Hls.isSupported()) {
+      var hls = new Hls();
+      hls.loadSource(videoSrc);
+      hls.attachMedia(video);
+    }
+    else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+      video.src = videoSrc;
+    }
+  </script>
+
+  <h3>Previously Recorded Live Streams</h3>
+  <p>Previously Recorded Live Streams are available in a directory via 
+     the link below.<br> 
+     The recording are timestamped to enable finding the
+     correct one.<br><br>
+     <a href="https://yoursite.com/live/recorded-audio/">Recordings</a></p>
+
+  <p><a href="https://yoursite.com">yoursite.com</a></p>
+  <p>Donate code here for example</p> 
+</body>
+</html>
