@@ -1,7 +1,6 @@
 # one-line-live-stream
 One line of code to generate an audio or video live stream. A bit more code to move the files.
 
-Here’s a suggested `README.md` file for your GitHub repository based on the files and details in `all.txt`:
 
 ---
 
