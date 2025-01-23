@@ -98,6 +98,4 @@ The repository includes a sample `index.html` that:
 ## License
 This project is open-source and available under the MIT License.
 
----
 
-This `README.md` should be comprehensive for your GitHub repository, guiding users through setup and usage of the scripts and their integration with a web server. Let me know if you'd like any adjustments!
